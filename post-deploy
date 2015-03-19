@@ -9,8 +9,14 @@ if [ -f $DOKKU_ROOT/$APP/SLACK_URL ]; then
   echo "-----> Notifying Slack ..."
   URL=$(cat $DOKKU_ROOT/$APP/URL)
   SLACK_URL=$(cat $DOKKU_ROOT/$APP/SLACK_URL)
-  SLACK_MESSAGE="Deployed $APP to $HOSTNAME via $URL"
-  SLACK_JSON="{\"text\": \"$SLACK_MESSAGE\", \"color\": \"good\", \"mrkdwn_in\": [\"text\"]}"
-  SLACK_RESULT=`curl -s -d "payload=$SLACK_JSON" "${SLACK_URL}" -w "%{http_code}"`
-  echo $SLACK_RESULT
+  SLACK_JSON="{ \
+    \"attachments\": [{ \
+      \"text\": \"Deployed $APP to $HOSTNAME via $URL\", \
+      \"fallback\": \"Deployed $APP to $HOSTNAME via $URL\", \
+      \"color\": \"good\", \
+      \"mrkdwn_in\": [\"text\"] \
+    }] \
+  }"
+  SLACK_RESULT=$(curl -s -d "payload=$SLACK_JSON" "${SLACK_URL}" -w "%{http_code}")
+  echo "       ${SLACK_RESULT}"
 fi
