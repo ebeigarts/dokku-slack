@@ -12,7 +12,7 @@ git clone https://github.com/ebeigarts/dokku-slack /var/lib/dokku/plugins/slack
 
 ```sh
 $ dokku help
-    slack:set <app> <url>                           Set Slack service URL
+    slack:set <app> <service_url>                   Set Slack service URL
     slack:clear <app>                               Clears Slack service URL
     slack:get <app>                                 Display Slack service URL
 ```
