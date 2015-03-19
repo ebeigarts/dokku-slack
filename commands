@@ -7,11 +7,14 @@ case "$1" in
     [[ -z $2 ]] && echo "Please specify an app to run the command on" && exit 1
     verify_app_name "$2"
     APP="$2"
-    if [[ -z $3 ]]; then
-      rm "$DOKKU_ROOT/$APP/SLACK_URL"
-    else
-      echo "$3" > "$DOKKU_ROOT/$APP/SLACK_URL"
-    fi
+    echo "$3" > "$DOKKU_ROOT/$APP/SLACK_URL"
+    ;;
+
+  slack:clear)
+    [[ -z $2 ]] && echo "Please specify an app to run the command on" && exit 1
+    verify_app_name "$2"
+    APP="$2"
+    rm "$DOKKU_ROOT/$APP/SLACK_URL"
     ;;
 
   slack:get)
@@ -24,6 +27,7 @@ case "$1" in
   help)
     cat && cat<<EOF
     slack:set <app> <url>                           Set Slack service URL
+    slack:clear <app>                               Clears Slack service URL
     slack:get <app>                                 Display Slack service URL
 EOF
     ;;
